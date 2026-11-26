@@ -7,6 +7,16 @@ export const EN_MESSAGES = {
   'common.language': 'Language',
   'common.welcome': 'Welcome, {{name}}',
 
+  'theme.label': 'Theme',
+  'theme.mode.label': 'Appearance',
+  'theme.mode.system': 'System',
+  'theme.mode.light': 'Light',
+  'theme.mode.dark': 'Dark',
+  'theme.heritage-forest': 'Heritage Forest',
+  'theme.private-navy': 'Private Bank Navy',
+  'theme.slate': 'Slate',
+  'theme.zinc': 'Zinc',
+
   'roles.owner': 'Owner',
   'roles.member': 'Member',
   'roles.child': 'Child',

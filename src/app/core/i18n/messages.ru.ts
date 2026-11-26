@@ -9,6 +9,16 @@ export const RU_MESSAGES: Record<TranslationKey, string> = {
   'common.language': 'Язык',
   'common.welcome': 'Добро пожаловать, {{name}}',
 
+  'theme.label': 'Тема',
+  'theme.mode.label': 'Оформление',
+  'theme.mode.system': 'Системная',
+  'theme.mode.light': 'Светлая',
+  'theme.mode.dark': 'Тёмная',
+  'theme.heritage-forest': 'Классический лес',
+  'theme.private-navy': 'Тёмно-синий',
+  'theme.slate': 'Сланец',
+  'theme.zinc': 'Цинк',
+
   'roles.owner': 'Владелец',
   'roles.member': 'Участник',
   'roles.child': 'Ребёнок',
