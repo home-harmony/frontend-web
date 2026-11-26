@@ -47,6 +47,14 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'join',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/invite-accept/invite-accept.component').then(
+        (m) => m.InviteAcceptComponent,
+      ),
+  },
   { path: '', pathMatch: 'full', redirectTo: 'workspace' },
   { path: '**', redirectTo: 'workspace' },
 ];

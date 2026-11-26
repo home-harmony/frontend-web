@@ -171,6 +171,66 @@ export const EN_MESSAGES = {
 
   'errors.NETWORK_ERROR': 'Unable to reach FamilyLedger. Check your connection and try again.',
   'errors.UNKNOWN_ERROR': 'An unexpected error occurred. Please try again.',
+
+  'overview.inviteMember': 'Invite Member',
+  'inviteDialog.title': 'Invite Family Member',
+  'inviteDialog.subtitle': 'Generate a one-time invitation link with explicit role boundaries.',
+  'inviteDialog.close': 'Close dialog',
+  'inviteDialog.roleLabel': 'Role',
+  'inviteDialog.roleMemberHint':
+    'Full family ledger member with preset standard permissions (all permissions included except Owner administration).',
+  'inviteDialog.roleChildHint':
+    'Restricted child role with preset permissions: record own transactions and view budget only.',
+  'inviteDialog.roleOtherHint':
+    'Select custom permissions below for this external or flexible participant.',
+  'inviteDialog.permissionsLegend': 'Custom Permissions (Other role only)',
+  'inviteDialog.relationshipLabel': 'Relationship (optional)',
+  'inviteDialog.relationshipPlaceholder': 'e.g. Spouse, Teenager, Aunt',
+  'inviteDialog.relationshipTooLong': 'Relationship label must be at most 64 characters.',
+  'inviteDialog.ttlLabel': 'Expires in',
+  'inviteDialog.ttl24h': '24 hours (1 day)',
+  'inviteDialog.ttl7d': '7 days (168 hours)',
+  'inviteDialog.ttl14d': '14 days (336 hours)',
+  'inviteDialog.ttl30d': '30 days (720 hours)',
+  'inviteDialog.submit': 'Create Invite Link',
+  'inviteDialog.submitting': 'Creating invite...',
+  'inviteDialog.cancel': 'Cancel',
+  'inviteDialog.createdTitle': 'One-Time Invite Ready',
+  'inviteDialog.createdDescription':
+    'Share this link securely with the recipient. It can be accepted once before it expires.',
+  'inviteDialog.expiresAt': 'Expires at',
+  'inviteDialog.copyLink': 'Copy Link',
+  'inviteDialog.copied': 'Copied',
+  'inviteDialog.copyToken': 'Copy Token',
+  'inviteDialog.createAnother': 'Create Another Invite',
+  'inviteDialog.done': 'Done',
+  'join.eyebrow': 'Family Invitation',
+  'join.title': 'Accept Workspace Invite',
+  'join.subtitle':
+    'Review the invitation parameters and choose how your name will appear in this family ledger.',
+  'join.targetFamilyLabel': 'Target Family ID',
+  'join.tokenLabel': 'Invite Token',
+  'join.pasteLabel': 'Invite link or familyId + token',
+  'join.pastePlaceholder': 'https://.../join?familyId=...&token=... or familyId:token',
+  'join.parseError':
+    'Could not read both a valid familyId (UUID) and invite token from this input.',
+  'join.missingParamsTitle': 'Invitation Link Incomplete',
+  'join.missingParamsHint':
+    'Paste the full invitation URL or familyId:token pair below to continue.',
+  'join.displayNameLabel': 'Your display name in this family',
+  'join.displayNamePlaceholder': 'e.g. Alex Johnson',
+  'join.displayNameRequired': 'Display name is required.',
+  'join.displayNameTooLong': 'Display name must be at most 80 characters.',
+  'join.identityOnlyNote':
+    'Accepted using your signed-in Cognito identity without switching your active workspace beforehand.',
+  'join.submit': 'Accept Invite & Join',
+  'join.submitting': 'Joining workspace...',
+  'join.successTitle': 'Joined Family Workspace',
+  'join.successMessage': 'You are now a member of this family workspace as',
+  'join.assignedRole': 'Assigned role',
+  'join.openWorkspace': 'Open Workspace',
+  'join.backToWorkspace': 'Back to Active Workspace',
+  'join.backToOnboarding': 'Go to Onboarding',
 } as const;
 
 export type TranslationKey = keyof typeof EN_MESSAGES;

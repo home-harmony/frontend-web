@@ -12,6 +12,7 @@ import { I18nService } from '../../core/i18n/i18n.service';
 import type { TranslationKey } from '../../core/i18n/messages.en';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { FamilyDeletedCardComponent, isFamilyEvictionError } from './family-deleted-card.component';
+import { InviteMemberDialogComponent } from '../members/invite-member-dialog.component';
 
 @Component({
   selector: 'app-workspace-overview',
@@ -21,6 +22,7 @@ import { FamilyDeletedCardComponent, isFamilyEvictionError } from './family-dele
     HlmBadge,
     HlmButton,
     HlmCardImports,
+    InviteMemberDialogComponent,
     RouterLink,
     TranslatePipe,
   ],
@@ -51,9 +53,16 @@ import { FamilyDeletedCardComponent, isFamilyEvictionError } from './family-dele
             }
           </div>
 
-          <a hlmBtn variant="outline" size="sm" routerLink="/workspace/settings">
-            {{ 'overview.manageSettings' | t }}
-          </a>
+          <div class="flex flex-wrap items-center gap-2">
+            @if (isOwner()) {
+              <button hlmBtn size="sm" type="button" (click)="inviteDialogOpen.set(true)">
+                {{ 'overview.inviteMember' | t }}
+              </button>
+            }
+            <a hlmBtn variant="outline" size="sm" routerLink="/workspace/settings">
+              {{ 'overview.manageSettings' | t }}
+            </a>
+          </div>
         </div>
 
         @if (errorMessage(); as message) {
@@ -124,6 +133,14 @@ import { FamilyDeletedCardComponent, isFamilyEvictionError } from './family-dele
           </div>
         </section>
       </div>
+
+      @if (inviteDialogOpen() && isOwner() && workspaceStore.activeFamilyId(); as activeFamilyId) {
+        <app-invite-member-dialog
+          [familyId]="activeFamilyId"
+          [familyName]="displayName()"
+          (closed)="inviteDialogOpen.set(false)"
+        />
+      }
     }
   `,
 })
@@ -141,6 +158,8 @@ export class WorkspaceOverviewComponent {
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly evictedCode = signal<string | null>(null);
   protected readonly hasRemainingWorkspace = signal(false);
+  protected readonly inviteDialogOpen = signal(false);
+  protected readonly isOwner = computed(() => this.workspaceStore.activeRole() === 'owner');
 
   protected readonly displayName = computed(
     () => this.family()?.name ?? this.workspaceStore.activeWorkspace()?.family.name ?? '',
@@ -180,6 +199,7 @@ export class WorkspaceOverviewComponent {
         return;
       }
       this.skipSwitchVersion = null;
+      this.inviteDialogOpen.set(false);
       if (familyId) {
         void this.loadFamily(familyId);
       }

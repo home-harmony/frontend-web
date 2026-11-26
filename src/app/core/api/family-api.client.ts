@@ -3,10 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import { APP_CONFIG } from '../config/app-config';
 import type {
+  AcceptInviteRequest,
   CreateFamilyRequest,
   CreateFamilyResponse,
+  CreateInviteRequest,
   FamilyResponse,
+  InviteResponse,
   ListUserFamiliesResponse,
+  MemberResponse,
   UpdateFamilyRequest,
 } from './family.dto';
 
@@ -29,5 +33,13 @@ export class FamilyApiClient {
 
   updateFamily(familyId: string, request: UpdateFamilyRequest): Observable<FamilyResponse> {
     return this.http.put<FamilyResponse>(`${this.baseUrl}/families/${familyId}`, request);
+  }
+
+  createInvite(familyId: string, request: CreateInviteRequest): Observable<InviteResponse> {
+    return this.http.post<InviteResponse>(`${this.baseUrl}/families/${familyId}/invites`, request);
+  }
+
+  acceptInvite(familyId: string, request: AcceptInviteRequest): Observable<MemberResponse> {
+    return this.http.post<MemberResponse>(`${this.baseUrl}/families/${familyId}/members`, request);
   }
 }
