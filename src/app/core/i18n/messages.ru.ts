@@ -19,6 +19,17 @@ export const RU_MESSAGES: Record<TranslationKey, string> = {
   'theme.slate': 'Сланец',
   'theme.zinc': 'Цинк',
 
+  'auth.signingIn': 'Завершение входа...',
+  'auth.signedOut': 'Вы вышли из FamilyLedger.',
+  'auth.signInAgain': 'Войти',
+  'auth.retrySignIn': 'Повторить вход',
+  'auth.error.STATE_MISMATCH': 'Не удалось проверить состояние входа. Пожалуйста, войдите снова.',
+  'auth.error.MISSING_CODE': 'В ответе авторизации отсутствует код подтверждения.',
+  'auth.error.UNVERIFIED_EMAIL': 'Для работы с FamilyLedger необходимо подтвердить адрес электронной почты.',
+  'auth.error.INVALID_ID_TOKEN': 'Получен недействительный токен идентификации. Войдите снова.',
+  'auth.error.TOKEN_EXCHANGE_FAILED': 'Не удалось завершить обмен токена с провайдером входа.',
+  'auth.error.OAUTH_ERROR': 'Вход был отменён или отклонён провайдером авторизации.',
+
   'roles.owner': 'Владелец',
   'roles.member': 'Участник',
   'roles.child': 'Ребёнок',

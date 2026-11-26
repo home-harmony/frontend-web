@@ -17,6 +17,17 @@ export const EN_MESSAGES = {
   'theme.slate': 'Slate',
   'theme.zinc': 'Zinc',
 
+  'auth.signingIn': 'Completing sign-in...',
+  'auth.signedOut': 'You have been signed out of FamilyLedger.',
+  'auth.signInAgain': 'Sign in',
+  'auth.retrySignIn': 'Try signing in again',
+  'auth.error.STATE_MISMATCH': 'Sign-in verification failed. Please start sign-in again.',
+  'auth.error.MISSING_CODE': 'Authorization code was missing from the sign-in callback.',
+  'auth.error.UNVERIFIED_EMAIL': 'Your email address must be verified before using FamilyLedger.',
+  'auth.error.INVALID_ID_TOKEN': 'Received an invalid identity token. Please sign in again.',
+  'auth.error.TOKEN_EXCHANGE_FAILED': 'Could not complete sign-in with the identity provider.',
+  'auth.error.OAUTH_ERROR': 'Sign-in was canceled or rejected by the identity provider.',
+
   'roles.owner': 'Owner',
   'roles.member': 'Member',
   'roles.child': 'Child',
