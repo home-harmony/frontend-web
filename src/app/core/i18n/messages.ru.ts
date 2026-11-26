@@ -87,6 +87,43 @@ export const RU_MESSAGES: Record<TranslationKey, string> = {
   'overview.nextSliceNote':
     'Полный обзор и настройки семьи будут добавлены в Slice 3, приглашения и роли — в Slices 4–5.',
 
+  'roles.description.owner':
+    'Полное управление пространством, настройками, приглашениями и бюджетом.',
+  'roles.description.member':
+    'Управление счетами, запись операций, просмотр кредитов и бюджета.',
+  'roles.description.child':
+    'Ограниченный доступ: только свои платёжные счета и свои операции.',
+  'roles.description.other': 'Доступ ограничен индивидуальным набором разрешений.',
+
+  'overview.manageSettings': 'Настройки семьи',
+  'overview.createdLabel': 'Создано',
+  'overview.currencyNote':
+    'Все сводные итоги, свободный остаток и бюджеты приводятся к этой валюте по актуальному курсу.',
+  'overview.accessCard': 'Ваш доступ и роль',
+  'overview.roadmapTitle': 'Дорожная карта модулей (Спринты 3–5)',
+  'overview.roadmapSubtitle': 'Отображение разделов зависит от вашей роли в пространстве.',
+  'overview.hiddenChild': 'Скрыто для роли Ребёнок',
+
+  'settings.title': 'Настройки семьи',
+  'settings.subtitle': 'Управление названием семейного пространства и основной валютой.',
+  'settings.nameLabel': 'Название семьи',
+  'settings.nameRequired': 'Укажите название семьи (1–100 символов).',
+  'settings.currencyLabel': 'Основная валюта (HomeDisplayCurrency)',
+  'settings.fxNote':
+    'Смена основной валюты меняет только отображение сводной аналитики и не затрагивает неизменяемые записи журнала.',
+  'settings.save': 'Сохранить изменения',
+  'settings.saving': 'Сохранение...',
+  'settings.reset': 'Сбросить',
+  'settings.saved': 'Настройки семейного пространства обновлены.',
+  'settings.readonlyNotice':
+    'Изменять настройки пространства может только владелец семьи. У вас доступ только для чтения.',
+
+  'familyDeleted.title': 'Это семейное пространство больше не активно.',
+  'familyDeleted.subtitle':
+    'Пространство было удалено или доступ к нему изменился, поэтому оно исключено из списка переключения.',
+  'familyDeleted.switchRemaining': 'Перейти к другому пространству',
+  'familyDeleted.goOnboarding': 'Перейти к созданию',
+
   'roles.owner': 'Владелец',
   'roles.member': 'Участник',
   'roles.child': 'Ребёнок',

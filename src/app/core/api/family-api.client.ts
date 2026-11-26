@@ -5,7 +5,9 @@ import { APP_CONFIG } from '../config/app-config';
 import type {
   CreateFamilyRequest,
   CreateFamilyResponse,
+  FamilyResponse,
   ListUserFamiliesResponse,
+  UpdateFamilyRequest,
 } from './family.dto';
 
 @Injectable({ providedIn: 'root' })
@@ -19,5 +21,13 @@ export class FamilyApiClient {
 
   createFamily(request: CreateFamilyRequest): Observable<CreateFamilyResponse> {
     return this.http.post<CreateFamilyResponse>(`${this.baseUrl}/families`, request);
+  }
+
+  getFamily(familyId: string): Observable<FamilyResponse> {
+    return this.http.get<FamilyResponse>(`${this.baseUrl}/families/${familyId}`);
+  }
+
+  updateFamily(familyId: string, request: UpdateFamilyRequest): Observable<FamilyResponse> {
+    return this.http.put<FamilyResponse>(`${this.baseUrl}/families/${familyId}`, request);
   }
 }

@@ -1,31 +1,51 @@
 import { Routes } from '@angular/router';
-import { AuthCallbackComponent } from './core/auth/auth-callback.component';
-import { AuthLogoutComponent } from './core/auth/auth-logout.component';
 import { authGuard } from './core/auth/auth.guard';
 import { onboardingGuard, workspaceRequiredGuard } from './core/context/workspace.guards';
-import { WorkspaceOverviewComponent } from './features/family/workspace-overview.component';
-import { CreateFamilyComponent } from './features/onboarding/create-family.component';
-import { OnboardingComponent } from './features/onboarding/onboarding.component';
-import { AppShellComponent } from './shared/components/app-shell.component';
 
 export const routes: Routes = [
-  { path: 'auth/callback', component: AuthCallbackComponent },
-  { path: 'auth/logout', component: AuthLogoutComponent },
+  {
+    path: 'auth/callback',
+    loadComponent: () =>
+      import('./core/auth/auth-callback.component').then((m) => m.AuthCallbackComponent),
+  },
+  {
+    path: 'auth/logout',
+    loadComponent: () =>
+      import('./core/auth/auth-logout.component').then((m) => m.AuthLogoutComponent),
+  },
   {
     path: 'onboarding',
     canActivate: [authGuard, onboardingGuard],
-    component: OnboardingComponent,
+    loadComponent: () =>
+      import('./features/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
   },
   {
     path: 'onboarding/create',
     canActivate: [authGuard],
-    component: CreateFamilyComponent,
+    loadComponent: () =>
+      import('./features/onboarding/create-family.component').then((m) => m.CreateFamilyComponent),
   },
   {
     path: 'workspace',
     canActivate: [authGuard, workspaceRequiredGuard],
-    component: AppShellComponent,
-    children: [{ path: '', component: WorkspaceOverviewComponent }],
+    loadComponent: () =>
+      import('./shared/components/app-shell.component').then((m) => m.AppShellComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/family/workspace-overview.component').then(
+            (m) => m.WorkspaceOverviewComponent,
+          ),
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./features/family/family-settings.component').then(
+            (m) => m.FamilySettingsComponent,
+          ),
+      },
+    ],
   },
   { path: '', pathMatch: 'full', redirectTo: 'workspace' },
   { path: '**', redirectTo: 'workspace' },

@@ -85,6 +85,42 @@ export const EN_MESSAGES = {
   'overview.nextSliceNote':
     'Workspace Overview & Family Settings arrive in Slice 3; Member Invites & Governance arrive in Slices 4–5.',
 
+  'roles.description.owner':
+    'Full workspace governance, family settings, invites, and budget approval.',
+  'roles.description.member':
+    'Can manage accounts, record transactions, view loans, and track budgets.',
+  'roles.description.child': 'Restricted view: own payment accounts and own transactions only.',
+  'roles.description.other': 'Scoped by custom permissions assigned at invite time.',
+
+  'overview.manageSettings': 'Family Settings',
+  'overview.createdLabel': 'Created',
+  'overview.currencyNote':
+    'All dashboard totals, surplus, and budgets normalize to this currency using live FX rates.',
+  'overview.accessCard': 'Your Access & Role',
+  'overview.roadmapTitle': 'Modules Roadmap (Sprints 3–5)',
+  'overview.roadmapSubtitle': 'Navigation availability reflects your active workspace role.',
+  'overview.hiddenChild': 'Hidden for Child',
+
+  'settings.title': 'Family Settings',
+  'settings.subtitle': 'Manage your household workspace name and HomeDisplayCurrency.',
+  'settings.nameLabel': 'Family Name',
+  'settings.nameRequired': 'Family name is required (1–100 characters).',
+  'settings.currencyLabel': 'HomeDisplayCurrency',
+  'settings.fxNote':
+    'Changing HomeDisplayCurrency updates aggregated analytics display without modifying immutable historical ledger transactions.',
+  'settings.save': 'Save Changes',
+  'settings.saving': 'Saving...',
+  'settings.reset': 'Reset',
+  'settings.saved': 'Family workspace profile updated.',
+  'settings.readonlyNotice':
+    'Only the family Owner can edit workspace settings. You have read-only access.',
+
+  'familyDeleted.title': 'This family workspace is no longer active.',
+  'familyDeleted.subtitle':
+    'The workspace was deleted or your access changed, so it has been removed from your active switcher.',
+  'familyDeleted.switchRemaining': 'Switch to remaining workspace',
+  'familyDeleted.goOnboarding': 'Go to Onboarding',
+
   'roles.owner': 'Owner',
   'roles.member': 'Member',
   'roles.child': 'Child',

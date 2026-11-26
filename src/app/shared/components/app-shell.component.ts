@@ -62,10 +62,13 @@ import { WorkspaceSwitcherComponent } from './workspace-switcher.component';
                 <span>{{ 'shell.nav.members' | t }}</span>
                 <span hlmBadge variant="outline" class="font-mono">S5</span>
               </div>
-              <div class="px-2.5 py-2 flex items-center justify-between text-muted-foreground">
-                <span>{{ 'shell.nav.settings' | t }}</span>
-                <span hlmBadge variant="outline" class="font-mono">S3</span>
-              </div>
+              <a
+                routerLink="/workspace/settings"
+                routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground border-l-2 border-sidebar-primary font-medium"
+                class="block px-2.5 py-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              >
+                {{ 'shell.nav.settings' | t }}
+              </a>
             </nav>
 
             <div class="pt-2 border-t border-sidebar-border space-y-1 text-xs text-muted-foreground">
@@ -138,10 +141,14 @@ import { WorkspaceSwitcherComponent } from './workspace-switcher.component';
                   <span>{{ 'shell.nav.members' | t }}</span>
                   <span hlmBadge variant="outline" class="font-mono">S5</span>
                 </div>
-                <div class="px-2.5 py-2 flex items-center justify-between text-muted-foreground">
-                  <span>{{ 'shell.nav.settings' | t }}</span>
-                  <span hlmBadge variant="outline" class="font-mono">S3</span>
-                </div>
+                <a
+                  routerLink="/workspace/settings"
+                  routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground border-l-2 border-sidebar-primary font-medium"
+                  class="block px-2.5 py-2"
+                  (click)="drawerOpen.set(false)"
+                >
+                  {{ 'shell.nav.settings' | t }}
+                </a>
               </nav>
             </div>
           </aside>

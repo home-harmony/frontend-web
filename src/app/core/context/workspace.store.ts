@@ -4,6 +4,7 @@ import { FamilyApiClient } from '../api/family-api.client';
 import type {
   CreateFamilyRequest,
   CreateFamilyResponse,
+  FamilyResponse,
   Role,
   UserFamilySummaryDto,
 } from '../api/family.dto';
@@ -99,6 +100,32 @@ export class WorkspaceStore {
     this.activeFamilyStore.setActiveFamilyId(created.id);
     this.switchVersion.update((v) => v + 1);
     return created;
+  }
+
+  applyFamilyProfileUpdate(updated: FamilyResponse): void {
+    this.families.update((prev) =>
+      prev.map((item) =>
+        item.family.id === updated.id
+          ? {
+              ...item,
+              family: {
+                id: updated.id,
+                name: updated.name,
+                home_currency: updated.home_currency,
+              },
+            }
+          : item,
+      ),
+    );
+  }
+
+  evictFamily(familyId: string): string | null {
+    const remaining = this.families().filter((item) => item.family.id !== familyId);
+    this.families.set(remaining);
+    const nextId = remaining[0]?.family.id ?? null;
+    this.activeFamilyStore.setActiveFamilyId(nextId);
+    this.switchVersion.update((v) => v + 1);
+    return nextId;
   }
 
   reset(): void {
