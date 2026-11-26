@@ -58,10 +58,13 @@ import { WorkspaceSwitcherComponent } from './workspace-switcher.component';
               >
                 {{ 'shell.nav.overview' | t }}
               </a>
-              <div class="px-2.5 py-2 flex items-center justify-between text-muted-foreground">
-                <span>{{ 'shell.nav.members' | t }}</span>
-                <span hlmBadge variant="outline" class="font-mono">S5</span>
-              </div>
+              <a
+                routerLink="/workspace/members"
+                routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground border-l-2 border-sidebar-primary font-medium"
+                class="block px-2.5 py-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              >
+                {{ 'shell.nav.members' | t }}
+              </a>
               <a
                 routerLink="/workspace/settings"
                 routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground border-l-2 border-sidebar-primary font-medium"
@@ -137,10 +140,14 @@ import { WorkspaceSwitcherComponent } from './workspace-switcher.component';
                 >
                   {{ 'shell.nav.overview' | t }}
                 </a>
-                <div class="px-2.5 py-2 flex items-center justify-between text-muted-foreground">
-                  <span>{{ 'shell.nav.members' | t }}</span>
-                  <span hlmBadge variant="outline" class="font-mono">S5</span>
-                </div>
+                <a
+                  routerLink="/workspace/members"
+                  routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground border-l-2 border-sidebar-primary font-medium"
+                  class="block px-2.5 py-2"
+                  (click)="drawerOpen.set(false)"
+                >
+                  {{ 'shell.nav.members' | t }}
+                </a>
                 <a
                   routerLink="/workspace/settings"
                   routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground border-l-2 border-sidebar-primary font-medium"

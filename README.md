@@ -1,59 +1,38 @@
-# FamilyLedgerWeb
+# FamilyLedger Web SPA (`frontend-web/`)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.3.0.
+Angular 22 standalone, zoneless, signal-driven web client for **HomeHarmony / FamilyLedger**, styled with `spartan/ui` (`lyra` primitives, `--radius: 0rem`) + Tailwind CSS v4 (4 live-switchable OKLCH themes × System/Light/Dark, EN/RU i18n, Cognito Hosted UI OAuth2 + PKCE).
 
-## Development server
+## Prerequisites
 
-To start a local development server, run:
+- **Node.js `>= 22`**
+- **`pnpm >= 12`** (`corepack enable` or npm global install)
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Install dependencies:
 
 ```bash
-ng generate component component-name
+pnpm install --frozen-lockfile
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Development Commands
 
 ```bash
-ng generate --help
+pnpm start   # Start Angular dev server at http://localhost:4200
+pnpm lint    # Run ESLint & Angular template checks
+pnpm test    # Run Vitest unit & component test suite (18 files, 72 tests)
+pnpm build   # Build production bundle -> dist/family-ledger-web/browser/
 ```
 
-## Building
+## Environment Configuration
 
-To build the project run:
+Runtime endpoints live in:
+- `src/environments/environment.ts` (used by `pnpm start`, local `http://localhost:4200`)
+- `src/environments/environment.prod.ts` (swapped automatically by `pnpm build`)
 
-```bash
-ng build
-```
+Never commit live AWS account IDs, Cognito client IDs, or API Gateway invoke URLs into these files. Leave placeholders in Git and populate local values from your CloudFormation stack outputs before running `pnpm start` or `pnpm build`.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## AWS Deployment Instructions
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Sprint 2 Only (`dev` stack, local dev vs live AWS, S3 + CloudFront deploy, and E2E/CSP smoke checklist)**:
+  See [`../documentation/roadmap/sprint-2/aws-deployment-guide.md`](../documentation/roadmap/sprint-2/aws-deployment-guide.md) (§8).
+- **Overall Full Product (all 3 SAM stacks, Aurora DSQL, Day-2 frontend/backend deploys, multi-environment `dev`/`staging`/`prod`, Sprints 3–7 growth, and teardown)**:
+  See [`../documentation/architecture/aws-deployment-and-teardown.md`](../documentation/architecture/aws-deployment-and-teardown.md).

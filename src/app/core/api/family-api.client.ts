@@ -4,11 +4,13 @@ import type { Observable } from 'rxjs';
 import { APP_CONFIG } from '../config/app-config';
 import type {
   AcceptInviteRequest,
+  ChangeMemberRoleRequest,
   CreateFamilyRequest,
   CreateFamilyResponse,
   CreateInviteRequest,
   FamilyResponse,
   InviteResponse,
+  ListMembersResponse,
   ListUserFamiliesResponse,
   MemberResponse,
   UpdateFamilyRequest,
@@ -41,5 +43,24 @@ export class FamilyApiClient {
 
   acceptInvite(familyId: string, request: AcceptInviteRequest): Observable<MemberResponse> {
     return this.http.post<MemberResponse>(`${this.baseUrl}/families/${familyId}/members`, request);
+  }
+
+  listMembers(familyId: string): Observable<ListMembersResponse> {
+    return this.http.get<ListMembersResponse>(`${this.baseUrl}/families/${familyId}/members`);
+  }
+
+  changeMemberRole(
+    familyId: string,
+    memberId: string,
+    request: ChangeMemberRoleRequest,
+  ): Observable<MemberResponse> {
+    return this.http.patch<MemberResponse>(
+      `${this.baseUrl}/families/${familyId}/members/${memberId}/role`,
+      request,
+    );
+  }
+
+  removeMember(familyId: string, memberId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/families/${familyId}/members/${memberId}`);
   }
 }

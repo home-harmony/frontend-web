@@ -39,6 +39,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'members',
+        loadComponent: () =>
+          import('./features/members/members-directory.component').then(
+            (m) => m.MembersDirectoryComponent,
+          ),
+      },
+      {
         path: 'settings',
         loadComponent: () =>
           import('./features/family/family-settings.component').then(

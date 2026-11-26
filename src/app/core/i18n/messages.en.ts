@@ -231,6 +231,49 @@ export const EN_MESSAGES = {
   'join.openWorkspace': 'Open Workspace',
   'join.backToWorkspace': 'Back to Active Workspace',
   'join.backToOnboarding': 'Go to Onboarding',
+
+  'members.title': 'Members Directory',
+  'members.subtitle': 'Active family members and scoped access governance.',
+  'members.activeCount': 'active',
+  'members.readOnlyNotice':
+    'Only the family Owner can invite members, change roles, or remove access. You have read-only directory access.',
+  'members.empty': 'No active members found in this workspace.',
+  'members.protectedOwner': 'Protected (Owner)',
+  'members.presetOwner': 'Preset: Full Owner governance',
+  'members.presetMember': 'Preset: Standard Member access',
+  'members.presetChild': 'Preset: Own transactions & budget only',
+  'members.noCustomPermissions': 'No custom permissions selected',
+  'members.col.member': 'Member',
+  'members.col.role': 'Role',
+  'members.col.relationship': 'Relationship',
+  'members.col.access': 'Permissions / Scope',
+  'members.col.joined': 'Joined',
+  'members.col.actions': 'Actions',
+  'members.action.editRole': 'Edit Role',
+  'members.action.remove': 'Remove',
+  'editRoleDialog.title': 'Edit Role & Permissions',
+  'editRoleDialog.subtitle': 'Update access boundaries for',
+  'editRoleDialog.close': 'Close dialog',
+  'editRoleDialog.roleLabel': 'Target Role (Owner excluded)',
+  'editRoleDialog.memberHint':
+    'Grants standard full Member permissions (Owner administration excluded).',
+  'editRoleDialog.childHint':
+    'Restricts to recording own transactions and viewing monthly budgets only.',
+  'editRoleDialog.otherHint':
+    'Select explicit custom permissions below for this Other participant.',
+  'editRoleDialog.permissionsLegend': 'Custom Permissions (Other role only)',
+  'editRoleDialog.noChangesHint': 'Make a change to role or permissions before saving.',
+  'editRoleDialog.submit': 'Save Role Changes',
+  'editRoleDialog.submitting': 'Saving...',
+  'editRoleDialog.cancel': 'Cancel',
+  'removeMemberDialog.title': 'Remove Member from Workspace',
+  'removeMemberDialog.close': 'Close dialog',
+  'removeMemberDialog.targetLabel': 'Member to remove',
+  'removeMemberDialog.warning':
+    'This performs a soft-delete removal. The member immediately loses access to this workspace, while historical ledger transactions and audit records remain intact.',
+  'removeMemberDialog.confirm': 'Remove Member',
+  'removeMemberDialog.removing': 'Removing...',
+  'removeMemberDialog.cancel': 'Cancel',
 } as const;
 
 export type TranslationKey = keyof typeof EN_MESSAGES;
