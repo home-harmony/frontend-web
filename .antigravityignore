@@ -1,0 +1,44 @@
+# Local secrets & environment overrides (keep .env.example readable)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencies, Angular / Vite / Vitest build, cache & coverage artifacts
+node_modules/
+dist/
+out-tsc/
+tmp/
+.angular/
+.nx/
+.vite/
+.sass-cache/
+coverage/
+lcov.info
+*.tsbuildinfo
+__screenshots__/
+
+# Bulky machine-generated files (tracked in Git, noisy for AI context)
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Local AI scratch & logs (keep .ai/rules/, .ai/skills/, .agents/ visible)
+.ai/local/
+*.log
+
+# VCS, IDE & OS metadata
+.git/
+.idea/
+.vscode/
+.history/
+*.iml
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
