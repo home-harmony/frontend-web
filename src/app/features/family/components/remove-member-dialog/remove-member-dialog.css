@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.remove-member-dialog {
+  max-width: 28rem;
+}

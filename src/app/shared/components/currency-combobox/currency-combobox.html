@@ -1,0 +1,60 @@
+<div class="combobox">
+  <button
+    type="button"
+    class="combobox-trigger"
+    [attr.id]="inputId()"
+    [attr.aria-expanded]="open()"
+    (click)="toggle()"
+  >
+    <span>
+      <strong class="font-mono">{{ value() }}</strong>
+      @if (selectedOption(); as option) {
+        <span> — {{ option.name }}</span>
+      }
+    </span>
+    <span class="combobox-chevron">▾</span>
+  </button>
+
+  @if (open()) {
+    <div class="combobox-popover">
+      <input
+        hlmInput
+        type="text"
+        [value]="query()"
+        [placeholder]="'createFamily.currencySearchPlaceholder' | t"
+        (input)="onSearch($event)"
+      />
+
+      <div class="combobox-list">
+        @for (currency of filtered(); track currency.code) {
+          <button
+            type="button"
+            class="combobox-option"
+            [attr.data-active]="currency.code === value() ? 'true' : null"
+            [attr.data-currency-code]="currency.code"
+            (click)="choose(currency.code)"
+          >
+            <span><strong class="font-mono">{{ currency.code }}</strong> · {{ currency.name }}</span>
+            @if (currency.code === value()) {
+              <span>✓</span>
+            }
+          </button>
+        } @empty {
+          @if (customIsoCode(); as customCode) {
+            <button
+              type="button"
+              class="combobox-custom-btn"
+              (click)="choose(customCode)"
+            >
+              {{ 'createFamily.currencyUseCustom' | t: { code: customCode } }}
+            </button>
+          } @else {
+            <div class="combobox-empty">
+              {{ 'createFamily.currencyEmpty' | t }}
+            </div>
+          }
+        }
+      </div>
+    </div>
+  }
+</div>

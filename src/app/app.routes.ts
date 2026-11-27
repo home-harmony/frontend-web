@@ -1,66 +1,27 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth/auth.guard';
-import { onboardingGuard, workspaceRequiredGuard } from './core/context/workspace.guards';
+import { authGuard } from './core/auth/guards/auth';
+import { workspaceRequiredGuard } from './core/context/guards/workspace';
+import { familyStandaloneRoutes } from './features/family/family.routes';
 
 export const routes: Routes = [
   {
     path: 'auth/callback',
     loadComponent: () =>
-      import('./core/auth/auth-callback.component').then((m) => m.AuthCallbackComponent),
+      import('./core/auth/pages/auth-callback/auth-callback').then((m) => m.AuthCallback),
   },
   {
     path: 'auth/logout',
     loadComponent: () =>
-      import('./core/auth/auth-logout.component').then((m) => m.AuthLogoutComponent),
+      import('./core/auth/pages/auth-logout/auth-logout').then((m) => m.AuthLogout),
   },
-  {
-    path: 'onboarding',
-    canActivate: [authGuard, onboardingGuard],
-    loadComponent: () =>
-      import('./features/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
-  },
-  {
-    path: 'onboarding/create',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/onboarding/create-family.component').then((m) => m.CreateFamilyComponent),
-  },
+  ...familyStandaloneRoutes,
   {
     path: 'workspace',
     canActivate: [authGuard, workspaceRequiredGuard],
     loadComponent: () =>
-      import('./shared/components/app-shell.component').then((m) => m.AppShellComponent),
-    children: [
-      {
-        path: '',
-        loadComponent: () =>
-          import('./features/family/workspace-overview.component').then(
-            (m) => m.WorkspaceOverviewComponent,
-          ),
-      },
-      {
-        path: 'members',
-        loadComponent: () =>
-          import('./features/members/members-directory.component').then(
-            (m) => m.MembersDirectoryComponent,
-          ),
-      },
-      {
-        path: 'settings',
-        loadComponent: () =>
-          import('./features/family/family-settings.component').then(
-            (m) => m.FamilySettingsComponent,
-          ),
-      },
-    ],
-  },
-  {
-    path: 'join',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/invite-accept/invite-accept.component').then(
-        (m) => m.InviteAcceptComponent,
-      ),
+      import('./shared/components/app-shell/app-shell').then((m) => m.AppShell),
+    loadChildren: () =>
+      import('./features/family/family.routes').then((m) => m.familyWorkspaceRoutes),
   },
   { path: '', pathMatch: 'full', redirectTo: 'workspace' },
   { path: '**', redirectTo: 'workspace' },

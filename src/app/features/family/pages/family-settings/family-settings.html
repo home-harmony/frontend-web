@@ -1,0 +1,89 @@
+@if (evictedCode(); as code) {
+  <app-family-deleted-card
+    [errorCode]="code"
+    [hasRemaining]="hasRemainingWorkspace()"
+    (recoverWorkspace)="recoverToRemaining()"
+    (goToOnboarding)="goToOnboarding()"
+  />
+} @else {
+  <div class="fl-page settings-container">
+    <div>
+      <h1 class="fl-page-title">{{ 'settings.title' | t }}</h1>
+      <p class="fl-page-subtitle">{{ 'settings.subtitle' | t }}</p>
+    </div>
+
+    @if (errorMessage(); as message) {
+      <div role="alert" class="fl-alert-error">
+        {{ message }}
+      </div>
+    }
+
+    @if (savedBanner()) {
+      <div role="status" class="fl-banner-notice">
+        {{ 'settings.saved' | t }}
+      </div>
+    }
+
+    @if (loading() && !loadedFamily()) {
+      <p class="fl-page-subtitle">{{ 'common.loading' | t }}</p>
+    } @else if (isOwner()) {
+      <form hlmCard class="settings-card" [formGroup]="form" (ngSubmit)="save()">
+        <div class="fl-field">
+          <label for="settings-family-name" class="fl-field-label">
+            {{ 'settings.nameLabel' | t }}
+          </label>
+          <input
+            id="settings-family-name"
+            hlmInput
+            type="text"
+            maxlength="100"
+            formControlName="name"
+            (input)="onNameInput($event)"
+          />
+          @if (showNameError()) {
+            <p class="fl-field-error">{{ 'settings.nameRequired' | t }}</p>
+          }
+        </div>
+
+        <div class="fl-field">
+          <label for="settings-home-currency" class="fl-field-label">
+            {{ 'settings.currencyLabel' | t }}
+          </label>
+          <app-currency-combobox inputId="settings-home-currency" [(value)]="homeCurrency" />
+        </div>
+
+        <div class="fl-banner-notice">
+          {{ 'settings.fxNote' | t }}
+        </div>
+
+        <div class="settings-actions">
+          <button hlmBtn type="button" variant="outline" (click)="resetForm()">
+            {{ 'settings.reset' | t }}
+          </button>
+          <button hlmBtn type="submit" [disabled]="!canSubmit()">
+            {{ (saving() ? 'settings.saving' : 'settings.save') | t }}
+          </button>
+        </div>
+      </form>
+    } @else if (loadedFamily(); as family) {
+      <div class="fl-banner-notice">
+        {{ 'settings.readonlyNotice' | t }}
+      </div>
+
+      <section hlmCard class="settings-card">
+        <div class="space-y-1">
+          <div class="fl-page-subtitle">{{ 'settings.nameLabel' | t }}</div>
+          <div class="text-sm font-semibold">{{ family.name }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="fl-page-subtitle">{{ 'settings.currencyLabel' | t }}</div>
+          <div class="text-sm font-mono font-semibold">{{ family.home_currency }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="fl-page-subtitle">{{ 'overview.createdLabel' | t }}</div>
+          <div class="text-xs font-mono fl-tabular">{{ family.created_at.slice(0, 10) }}</div>
+        </div>
+      </section>
+    }
+  </div>
+}

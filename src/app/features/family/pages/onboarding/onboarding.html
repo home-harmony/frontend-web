@@ -1,0 +1,67 @@
+<div class="fl-standalone-shell">
+  <header class="fl-standalone-header">
+    <div class="fl-brand">
+      <span class="fl-brand-mark">F</span>
+      <span class="fl-brand-name">{{ 'app.name' | t }}</span>
+      @if (auth.user(); as user) {
+        <span hlmBadge variant="outline" class="hidden sm:inline-flex">{{ user.email }}</span>
+      }
+    </div>
+    <app-top-controls />
+  </header>
+
+  <main class="fl-standalone-main">
+    <div class="onboarding-container">
+      <div class="space-y-1.5">
+        <span hlmBadge variant="outline" class="font-mono">{{ 'onboarding.badge' | t }}</span>
+        <h1 class="onboarding-title">{{ 'onboarding.title' | t }}</h1>
+        <p class="fl-page-subtitle">
+          {{ 'onboarding.subtitle' | t }}
+        </p>
+      </div>
+
+      <div class="onboarding-grid">
+        <section hlmCard class="onboarding-card">
+          <div class="space-y-2">
+            <h2 class="text-sm font-semibold">{{ 'onboarding.create.title' | t }}</h2>
+            <p class="fl-page-subtitle">
+              {{ 'onboarding.create.description' | t }}
+            </p>
+          </div>
+          <button hlmBtn type="button" class="self-start" (click)="goToCreate()">
+            {{ 'onboarding.create.action' | t }}
+          </button>
+        </section>
+
+        <section hlmCard class="onboarding-card">
+          <div class="space-y-2.5">
+            <h2 class="text-sm font-semibold">{{ 'onboarding.join.title' | t }}</h2>
+            <p class="fl-page-subtitle">
+              {{ 'onboarding.join.description' | t }}
+            </p>
+            <div class="fl-field pt-1">
+              <label for="invite-link-input" class="fl-field-label">
+                {{ 'onboarding.join.inputLabel' | t }}
+              </label>
+              <input
+                id="invite-link-input"
+                hlmInput
+                type="text"
+                class="font-mono"
+                [value]="inviteInput()"
+                [placeholder]="'onboarding.join.placeholder' | t"
+                (input)="onInviteInput($event)"
+              />
+            </div>
+            @if (invalidInvite()) {
+              <p class="fl-field-error">{{ 'onboarding.join.invalid' | t }}</p>
+            }
+          </div>
+          <button hlmBtn type="button" variant="outline" class="self-start" (click)="submitInvite()">
+            {{ 'onboarding.join.action' | t }}
+          </button>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>

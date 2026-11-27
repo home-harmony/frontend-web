@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.settings-container {
+  max-width: 36rem;
+}
+
+.settings-card {
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.settings-actions {
+  padding-block-start: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

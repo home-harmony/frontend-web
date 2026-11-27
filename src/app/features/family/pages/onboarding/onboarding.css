@@ -1,0 +1,34 @@
+:host {
+  display: block;
+}
+
+.onboarding-container {
+  width: 100%;
+  max-width: 48rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.onboarding-title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.onboarding-grid {
+  display: grid;
+  gap: 1rem;
+
+  @media (min-width: 48rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.onboarding-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}

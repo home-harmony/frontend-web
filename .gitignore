@@ -43,3 +43,9 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Local environment & AI scratch notes
+.env
+.env.*
+!.env.example
+.ai/local/

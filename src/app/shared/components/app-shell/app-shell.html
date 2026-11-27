@@ -1,0 +1,168 @@
+<div class="shell-layout">
+  <aside class="shell-sidebar">
+    <div class="shell-sidebar-inner">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="fl-brand">
+            <span class="sidebar-brand-mark">F</span>
+            <span class="fl-brand-name">{{ 'app.name' | t }}</span>
+          </div>
+          @if (workspaceStore.activeWorkspace(); as active) {
+            <span hlmBadge variant="outline" class="font-mono">
+              {{ active.family.home_currency }}
+            </span>
+          }
+        </div>
+
+        <app-workspace-switcher (workspaceSwitched)="onWorkspaceSwitched()" />
+
+        <nav class="shell-nav">
+          <a
+            routerLink="/workspace"
+            routerLinkActive="is-active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="shell-nav-link"
+          >
+            {{ 'shell.nav.overview' | t }}
+          </a>
+          <a
+            routerLink="/workspace/members"
+            routerLinkActive="is-active"
+            class="shell-nav-link"
+          >
+            {{ 'shell.nav.members' | t }}
+          </a>
+          <a
+            routerLink="/workspace/settings"
+            routerLinkActive="is-active"
+            class="shell-nav-link"
+          >
+            {{ 'shell.nav.settings' | t }}
+          </a>
+        </nav>
+
+        <div class="shell-upcoming">
+          <div class="shell-upcoming-heading">
+            {{ 'shell.nav.upcoming' | t }}
+          </div>
+          <div class="shell-upcoming-item">{{ 'shell.nav.accounts' | t }}</div>
+          <div class="shell-upcoming-item">{{ 'shell.nav.ledger' | t }}</div>
+          @if (showDebtPlaceholder()) {
+            <div class="shell-upcoming-item">{{ 'shell.nav.debt' | t }}</div>
+          }
+          <div class="shell-upcoming-item">{{ 'shell.nav.budget' | t }}</div>
+        </div>
+      </div>
+
+      @if (workspaceStore.activeWorkspace(); as active) {
+        <div class="shell-user-footer">
+          <div class="min-w-0">
+            <div class="font-medium truncate">{{ active.membership.display_name }}</div>
+            @if (auth.user(); as user) {
+              <div class="text-muted-foreground truncate">{{ user.email }}</div>
+            }
+          </div>
+          <span hlmBadge class="shrink-0">{{ roleKey(active.membership.role) | t }}</span>
+        </div>
+      }
+    </div>
+  </aside>
+
+  @if (drawerOpen()) {
+    <div class="shell-drawer-overlay">
+      <button
+        type="button"
+        tabindex="-1"
+        class="shell-drawer-backdrop"
+        [attr.aria-label]="'shell.dismiss' | t"
+        (click)="drawerOpen.set(false)"
+      ></button>
+      <aside class="shell-drawer-panel">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="fl-brand">
+              <span class="sidebar-brand-mark">F</span>
+              <span class="fl-brand-name">{{ 'app.name' | t }}</span>
+            </div>
+            <button hlmBtn type="button" variant="outline" size="xs" (click)="drawerOpen.set(false)">
+              ✕
+            </button>
+          </div>
+
+          <app-workspace-switcher (workspaceSwitched)="onWorkspaceSwitched()" />
+
+          <nav class="shell-nav">
+            <a
+              routerLink="/workspace"
+              routerLinkActive="is-active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="shell-nav-link"
+              (click)="drawerOpen.set(false)"
+            >
+              {{ 'shell.nav.overview' | t }}
+            </a>
+            <a
+              routerLink="/workspace/members"
+              routerLinkActive="is-active"
+              class="shell-nav-link"
+              (click)="drawerOpen.set(false)"
+            >
+              {{ 'shell.nav.members' | t }}
+            </a>
+            <a
+              routerLink="/workspace/settings"
+              routerLinkActive="is-active"
+              class="shell-nav-link"
+              (click)="drawerOpen.set(false)"
+            >
+              {{ 'shell.nav.settings' | t }}
+            </a>
+          </nav>
+        </div>
+      </aside>
+    </div>
+  }
+
+  <div class="shell-main-col">
+    <header class="shell-topbar">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <button
+          hlmBtn
+          type="button"
+          variant="outline"
+          size="sm"
+          class="md:hidden"
+          [attr.aria-label]="'shell.openMenu' | t"
+          (click)="drawerOpen.set(true)"
+        >
+          ☰
+        </button>
+        <div class="text-xs text-muted-foreground truncate">
+          {{ 'shell.workspaces' | t }} /
+          <strong class="text-foreground">
+            {{ workspaceStore.activeWorkspace()?.family?.name ?? '' }}
+          </strong>
+        </div>
+      </div>
+
+      <app-top-controls />
+    </header>
+
+    <main class="shell-content">
+      @if (switchBannerVisible()) {
+        <div class="fl-banner-notice flex items-center justify-between gap-2">
+          <span>{{ 'shell.switchSuccess' | t }}</span>
+          <button
+            type="button"
+            class="font-medium underline shrink-0"
+            (click)="switchBannerVisible.set(false)"
+          >
+            {{ 'shell.dismiss' | t }}
+          </button>
+        </div>
+      }
+
+      <router-outlet />
+    </main>
+  </div>
+</div>

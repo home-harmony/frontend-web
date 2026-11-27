@@ -1,0 +1,78 @@
+<div class="fl-dialog-overlay">
+  <button
+    type="button"
+    tabindex="-1"
+    class="fl-dialog-backdrop"
+    [attr.aria-label]="'removeMemberDialog.close' | t"
+    (click)="onBackdropClose()"
+  ></button>
+  <section
+    hlmCard
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="remove-member-dialog-title"
+    class="fl-dialog-panel remove-member-dialog"
+  >
+    <div class="fl-dialog-header">
+      <h2 id="remove-member-dialog-title" class="text-base font-semibold tracking-tight">
+        {{ 'removeMemberDialog.title' | t }}
+      </h2>
+      <button
+        hlmBtn
+        type="button"
+        variant="ghost"
+        size="sm"
+        [attr.aria-label]="'removeMemberDialog.close' | t"
+        (click)="closeDialog()"
+      >
+        ✕
+      </button>
+    </div>
+
+    @if (errorMessage(); as message) {
+      <div role="alert" class="fl-alert-error">
+        {{ message }}
+      </div>
+    }
+
+    <div class="fl-subtle-box space-y-1.5">
+      <div class="text-muted-foreground">{{ 'removeMemberDialog.targetLabel' | t }}</div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-sm font-semibold text-foreground">{{ member().display_name }}</span>
+        <span hlmBadge>{{ roleKey(member().role) | t }}</span>
+      </div>
+      <div class="text-muted-foreground">
+        {{ member().relationship || '—' }} · {{ joinedDate() }}
+      </div>
+    </div>
+
+    <p class="fl-page-subtitle">
+      {{ 'removeMemberDialog.warning' | t }}
+    </p>
+
+    <div class="fl-dialog-footer">
+      <button
+        hlmBtn
+        type="button"
+        variant="outline"
+        [disabled]="submitting()"
+        (click)="closeDialog()"
+      >
+        {{ 'removeMemberDialog.cancel' | t }}
+      </button>
+      <button
+        hlmBtn
+        type="button"
+        variant="destructive"
+        [disabled]="submitting()"
+        (click)="confirmRemove()"
+      >
+        {{
+          submitting()
+            ? ('removeMemberDialog.removing' | t)
+            : ('removeMemberDialog.confirm' | t)
+        }}
+      </button>
+    </div>
+  </section>
+</div>

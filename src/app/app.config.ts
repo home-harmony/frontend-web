@@ -8,11 +8,11 @@ import {
 import { provideRouter } from '@angular/router';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
-import { APP_CONFIG } from './core/config/app-config';
-import { authInterceptor } from './core/http/auth.interceptor';
-import { familyHeaderInterceptor } from './core/http/family-header.interceptor';
-import { problemDetailsInterceptor } from './core/http/problem-details.interceptor';
-import { ThemeService } from './core/theme/theme.service';
+import { APP_CONFIG } from './core/config/models/app-config';
+import { authInterceptor } from './core/http/interceptors/auth';
+import { familyHeaderInterceptor } from './core/http/interceptors/family-header';
+import { problemDetailsInterceptor } from './core/http/interceptors/problem-details';
+import { ThemeService } from './core/theme/services/theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [

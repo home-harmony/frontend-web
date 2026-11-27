@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-select {
+  height: 1.75rem;
+  border: 1px solid var(--input);
+  background-color: var(--background);
+  color: var(--foreground);
+  padding-inline: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  outline: none;
+
+  &:focus-visible {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+}

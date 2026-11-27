@@ -1,0 +1,109 @@
+@if (evictedCode(); as code) {
+  <app-family-deleted-card
+    [errorCode]="code"
+    [hasRemaining]="hasRemainingWorkspace()"
+    (recoverWorkspace)="recoverToRemaining()"
+    (goToOnboarding)="goToOnboarding()"
+  />
+} @else {
+  <div class="fl-page">
+    <div class="fl-page-header">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <h1 class="fl-page-title">{{ displayName() }}</h1>
+          @if (displayCurrency(); as currency) {
+            <span hlmBadge variant="outline" class="font-mono">{{ currency }}</span>
+          }
+        </div>
+        @if (createdDate(); as created) {
+          <p class="fl-page-subtitle">
+            {{ 'overview.createdLabel' | t }}: <span class="font-mono fl-tabular">{{ created }}</span>
+          </p>
+        } @else {
+          <p class="fl-page-subtitle">{{ 'overview.subtitle' | t }}</p>
+        }
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        @if (isOwner()) {
+          <button hlmBtn size="sm" type="button" (click)="inviteDialogOpen.set(true)">
+            {{ 'overview.inviteMember' | t }}
+          </button>
+        }
+        <a hlmBtn variant="outline" size="sm" routerLink="/workspace/settings">
+          {{ 'overview.manageSettings' | t }}
+        </a>
+      </div>
+    </div>
+
+    @if (errorMessage(); as message) {
+      <div role="alert" class="fl-alert-error">
+        {{ message }}
+      </div>
+    }
+
+    @if (loading() && !family()) {
+      <p class="fl-page-subtitle">{{ 'common.loading' | t }}</p>
+    }
+
+    @if (workspaceStore.activeWorkspace(); as active) {
+      <div class="overview-kpi-grid">
+        <section hlmCard class="overview-card">
+          <div class="fl-page-subtitle">{{ 'overview.card.currency' | t }}</div>
+          <div class="text-xl font-semibold font-mono">{{ displayCurrency() }}</div>
+          <p class="fl-page-subtitle">
+            {{ 'overview.currencyNote' | t }}
+          </p>
+        </section>
+
+        <section hlmCard class="overview-card">
+          <div class="fl-page-subtitle">{{ 'overview.accessCard' | t }}</div>
+          <div class="flex items-center gap-2">
+            <span hlmBadge>{{ roleKey(active.membership.role) | t }}</span>
+            <span class="text-xs font-medium">{{ active.membership.display_name }}</span>
+          </div>
+          <p class="fl-page-subtitle">
+            {{ roleDescriptionKey(active.membership.role) | t }}
+          </p>
+        </section>
+
+        <section hlmCard class="overview-card">
+          <div class="fl-page-subtitle">{{ 'overview.card.workspaceId' | t }}</div>
+          <div class="text-xs font-mono font-semibold break-all">{{ active.family.id }}</div>
+          @if (createdDate(); as created) {
+            <div class="fl-page-subtitle pt-1">
+              {{ 'overview.createdLabel' | t }}: <span class="font-mono fl-tabular">{{ created }}</span>
+            </div>
+          }
+        </section>
+      </div>
+    }
+
+    <section hlmCard class="overview-roadmap">
+      <div>
+        <h2 class="overview-roadmap-heading">
+          {{ 'overview.roadmapTitle' | t }}
+        </h2>
+        <p class="fl-page-subtitle mt-0.5">{{ 'overview.roadmapSubtitle' | t }}</p>
+      </div>
+      <div class="overview-roadmap-grid">
+        @for (mod of roadmapModules(); track mod.labelKey) {
+          <div class="overview-roadmap-tile" [attr.data-hidden]="!mod.visible ? 'true' : null">
+            <span>{{ mod.labelKey | t }}</span>
+            <span hlmBadge variant="outline" class="font-mono">
+              {{ mod.visible ? mod.sprint : ('overview.hiddenChild' | t) }}
+            </span>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+
+  @if (inviteDialogOpen() && isOwner() && workspaceStore.activeFamilyId(); as activeFamilyId) {
+    <app-invite-member-dialog
+      [familyId]="activeFamilyId"
+      [familyName]="displayName()"
+      (closed)="inviteDialogOpen.set(false)"
+    />
+  }
+}

@@ -1,0 +1,61 @@
+:host {
+  display: block;
+}
+
+.checklist-fieldset {
+  display: grid;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  background-color: color-mix(in oklch, var(--muted) 20%, transparent);
+  padding: 0.75rem;
+}
+
+.checklist-legend {
+  padding-inline: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted-foreground);
+}
+
+.checklist-grid {
+  display: grid;
+  gap: 0.5rem;
+
+  @media (min-width: 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.checklist-item {
+  display: flex;
+  cursor: pointer;
+  align-items: flex-start;
+  gap: 0.625rem;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  padding-block: 0.5rem;
+  padding-inline: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: background-color 150ms ease;
+
+  &:hover:not([data-disabled='true']) {
+    background-color: color-mix(in oklch, var(--muted) 40%, transparent);
+  }
+
+  &[data-disabled='true'] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.checklist-checkbox {
+  margin-block-start: 0.125rem;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--primary);
+}

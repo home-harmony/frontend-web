@@ -1,0 +1,50 @@
+<div class="switcher">
+  <div class="switcher-label">{{ 'shell.activeWorkspace' | t }}</div>
+
+  @if (store.activeWorkspace(); as current) {
+    <button
+      type="button"
+      class="switcher-trigger"
+      [attr.aria-expanded]="open()"
+      (click)="toggle()"
+    >
+      <div class="min-w-0">
+        <div class="font-semibold truncate">{{ current.family.name }}</div>
+        <div class="switcher-meta truncate">
+          {{ current.family.home_currency }} · {{ roleKey(current.membership.role) | t }}
+        </div>
+      </div>
+      <span class="switcher-chevron">▾</span>
+    </button>
+  }
+
+  @if (open()) {
+    <div class="switcher-popover">
+      @for (item of store.families(); track item.family.id) {
+        <button
+          type="button"
+          class="switcher-option"
+          [attr.data-active]="item.family.id === store.activeFamilyId() ? 'true' : null"
+          [attr.data-workspace-id]="item.family.id"
+          (click)="selectWorkspace(item.family.id)"
+        >
+          <div class="min-w-0">
+            <div class="font-medium truncate">{{ item.family.name }}</div>
+            <div class="switcher-meta truncate">
+              {{ item.family.home_currency }} · {{ roleKey(item.membership.role) | t }}
+            </div>
+          </div>
+          @if (item.family.id === store.activeFamilyId()) {
+            <span class="shrink-0">✓</span>
+          }
+        </button>
+      }
+
+      <div class="switcher-footer">
+        <button type="button" class="switcher-create-btn" (click)="navigateToCreate()">
+          {{ 'shell.createWorkspaceOption' | t }}
+        </button>
+      </div>
+    </div>
+  }
+</div>
