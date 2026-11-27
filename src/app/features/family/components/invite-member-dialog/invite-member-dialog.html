@@ -1,0 +1,215 @@
+<div class="fl-dialog-overlay">
+  <button
+    type="button"
+    tabindex="-1"
+    class="fl-dialog-backdrop"
+    [attr.aria-label]="'inviteDialog.close' | t"
+    (click)="onBackdropClose()"
+  ></button>
+  <section
+    hlmCard
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="invite-dialog-title"
+    class="fl-dialog-panel invite-dialog"
+  >
+    <div class="fl-dialog-header">
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <h2 id="invite-dialog-title" class="text-base font-semibold tracking-tight">
+            {{ 'inviteDialog.title' | t }}
+          </h2>
+          @if (familyName()) {
+            <span hlmBadge variant="outline">{{ familyName() }}</span>
+          }
+        </div>
+        <p class="fl-page-subtitle">
+          {{ 'inviteDialog.subtitle' | t }}
+        </p>
+      </div>
+      <button
+        hlmBtn
+        type="button"
+        variant="ghost"
+        size="sm"
+        [attr.aria-label]="'inviteDialog.close' | t"
+        (click)="closeDialog()"
+      >
+        ✕
+      </button>
+    </div>
+
+    @if (errorMessage(); as message) {
+      <div role="alert" class="fl-alert-error">
+        {{ message }}
+      </div>
+    }
+
+    @if (createdInvite(); as invite) {
+      <div class="space-y-4">
+        <div class="fl-subtle-box space-y-2 p-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-sm font-semibold">{{ 'inviteDialog.createdTitle' | t }}</h3>
+            <span hlmBadge>{{ roleKey(invite.role) | t }}</span>
+          </div>
+          <p class="fl-page-subtitle">
+            {{ 'inviteDialog.createdDescription' | t }}
+          </p>
+        </div>
+
+        <div class="fl-field">
+          <label for="invite-generated-link" class="fl-field-label text-muted-foreground">
+            {{ 'join.pasteLabel' | t }}
+          </label>
+          <div class="invite-copy-row">
+            <input
+              id="invite-generated-link"
+              hlmInput
+              readonly
+              class="font-mono text-xs flex-1"
+              [value]="joinUrl()"
+              aria-label="Generated join link"
+            />
+            <button
+              hlmBtn
+              type="button"
+              size="sm"
+              (click)="copyValue(joinUrl(), 'link')"
+            >
+              {{
+                copiedKind() === 'link'
+                  ? ('inviteDialog.copied' | t)
+                  : ('inviteDialog.copyLink' | t)
+              }}
+            </button>
+          </div>
+        </div>
+
+        <div class="invite-meta-grid">
+          <div class="invite-meta-card">
+            <div class="text-muted-foreground">{{ 'join.tokenLabel' | t }}</div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-mono truncate">{{ invite.token }}</span>
+              <button
+                hlmBtn
+                type="button"
+                variant="outline"
+                size="sm"
+                (click)="copyValue(invite.token, 'token')"
+              >
+                {{
+                  copiedKind() === 'token'
+                    ? ('inviteDialog.copied' | t)
+                    : ('inviteDialog.copyToken' | t)
+                }}
+              </button>
+            </div>
+          </div>
+          <div class="invite-meta-card">
+            <div class="text-muted-foreground">{{ 'inviteDialog.expiresAt' | t }}</div>
+            <div class="font-mono">{{ invite.expires_at }}</div>
+          </div>
+        </div>
+
+        <div class="fl-dialog-footer">
+          <button hlmBtn type="button" variant="outline" (click)="resetForAnother()">
+            {{ 'inviteDialog.createAnother' | t }}
+          </button>
+          <button hlmBtn type="button" (click)="closeDialog()">
+            {{ 'inviteDialog.done' | t }}
+          </button>
+        </div>
+      </div>
+    } @else {
+      <form class="space-y-4" (submit)="submit($event)">
+        <div class="space-y-2">
+          <span class="fl-field-label">{{ 'inviteDialog.roleLabel' | t }}</span>
+          <div class="fl-role-grid" role="radiogroup">
+            @for (role of inviteableRoles; track role) {
+              <button
+                type="button"
+                role="radio"
+                class="fl-role-radio"
+                [attr.aria-checked]="selectedRole() === role"
+                [disabled]="submitting()"
+                (click)="selectRole(role)"
+              >
+                {{ roleKey(role) | t }}
+              </button>
+            }
+          </div>
+          <p class="fl-subtle-box text-muted-foreground">
+            {{ roleHintKey() | t }}
+          </p>
+        </div>
+
+        @if (selectedRole() === 'other') {
+          <app-permission-checklist
+            [legend]="'inviteDialog.permissionsLegend' | t"
+            [disabled]="submitting()"
+            [(selected)]="selectedPermissions"
+          />
+        }
+
+        <div class="invite-meta-grid">
+          <div class="fl-field">
+            <label for="invite-relationship" class="fl-field-label">
+              {{ 'inviteDialog.relationshipLabel' | t }}
+            </label>
+            <input
+              id="invite-relationship"
+              hlmInput
+              type="text"
+              maxlength="80"
+              [disabled]="submitting()"
+              [value]="relationship()"
+              [placeholder]="'inviteDialog.relationshipPlaceholder' | t"
+              (input)="onRelationshipInput($event)"
+            />
+            @if (relationshipTooLong()) {
+              <p class="fl-field-error">
+                {{ 'inviteDialog.relationshipTooLong' | t }}
+              </p>
+            }
+          </div>
+
+          <div class="fl-field">
+            <label for="invite-ttl" class="fl-field-label">
+              {{ 'inviteDialog.ttlLabel' | t }}
+            </label>
+            <select
+              id="invite-ttl"
+              class="invite-ttl-select"
+              [disabled]="submitting()"
+              [value]="ttlHours()"
+              (change)="onTtlChange($event)"
+            >
+              @for (opt of ttlOptions; track opt.hours) {
+                <option [value]="opt.hours">{{ opt.labelKey | t }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="fl-dialog-footer">
+          <button
+            hlmBtn
+            type="button"
+            variant="outline"
+            [disabled]="submitting()"
+            (click)="closeDialog()"
+          >
+            {{ 'inviteDialog.cancel' | t }}
+          </button>
+          <button hlmBtn type="submit" [disabled]="submitting() || relationshipTooLong()">
+            {{
+              submitting()
+                ? ('inviteDialog.submitting' | t)
+                : ('inviteDialog.submit' | t)
+            }}
+          </button>
+        </div>
+      </form>
+    }
+  </section>
+</div>

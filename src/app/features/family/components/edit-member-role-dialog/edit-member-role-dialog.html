@@ -1,0 +1,102 @@
+<div class="fl-dialog-overlay">
+  <button
+    type="button"
+    tabindex="-1"
+    class="fl-dialog-backdrop"
+    [attr.aria-label]="'editRoleDialog.close' | t"
+    (click)="onBackdropClose()"
+  ></button>
+  <section
+    hlmCard
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="edit-role-dialog-title"
+    class="fl-dialog-panel edit-role-dialog"
+  >
+    <div class="fl-dialog-header">
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <h2 id="edit-role-dialog-title" class="text-base font-semibold tracking-tight">
+            {{ 'editRoleDialog.title' | t }}
+          </h2>
+          <span hlmBadge variant="outline">{{ member().display_name }}</span>
+        </div>
+        <p class="fl-page-subtitle">
+          {{ 'editRoleDialog.subtitle' | t }}
+          <span class="font-medium text-foreground">{{ member().display_name }}</span>
+          ({{ roleKey(member().role) | t }})
+        </p>
+      </div>
+      <button
+        hlmBtn
+        type="button"
+        variant="ghost"
+        size="sm"
+        [attr.aria-label]="'editRoleDialog.close' | t"
+        (click)="closeDialog()"
+      >
+        ✕
+      </button>
+    </div>
+
+    @if (errorMessage(); as message) {
+      <div role="alert" class="fl-alert-error">
+        {{ message }}
+      </div>
+    }
+
+    <form class="space-y-4" (submit)="submit($event)">
+      <div class="space-y-2">
+        <span class="fl-field-label">{{ 'editRoleDialog.roleLabel' | t }}</span>
+        <div class="fl-role-grid" role="radiogroup">
+          @for (role of editableRoles; track role) {
+            <button
+              type="button"
+              role="radio"
+              class="fl-role-radio"
+              [attr.aria-checked]="selectedRole() === role"
+              [disabled]="submitting()"
+              (click)="selectRole(role)"
+            >
+              {{ roleKey(role) | t }}
+            </button>
+          }
+        </div>
+        <p class="fl-subtle-box text-muted-foreground">
+          {{ roleHintKey() | t }}
+        </p>
+      </div>
+
+      @if (selectedRole() === 'other') {
+        <app-permission-checklist
+          [legend]="'editRoleDialog.permissionsLegend' | t"
+          [disabled]="submitting()"
+          [(selected)]="selectedPermissions"
+        />
+      }
+
+      @if (!hasChanges()) {
+        <p class="fl-field-hint">{{ 'editRoleDialog.noChangesHint' | t }}</p>
+      }
+
+      <div class="fl-dialog-footer">
+        <button
+          hlmBtn
+          type="button"
+          variant="outline"
+          [disabled]="submitting()"
+          (click)="closeDialog()"
+        >
+          {{ 'editRoleDialog.cancel' | t }}
+        </button>
+        <button hlmBtn type="submit" [disabled]="!hasChanges() || submitting()">
+          {{
+            submitting()
+              ? ('editRoleDialog.submitting' | t)
+              : ('editRoleDialog.submit' | t)
+          }}
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

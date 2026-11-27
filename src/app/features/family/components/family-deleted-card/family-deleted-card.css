@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.deleted-card {
+  max-width: 32rem;
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.deleted-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-block-start: 0.25rem;
+}

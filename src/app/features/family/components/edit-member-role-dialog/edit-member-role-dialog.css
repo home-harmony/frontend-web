@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.edit-role-dialog {
+  max-width: 36rem;
+}

@@ -1,0 +1,19 @@
+<fieldset class="checklist-fieldset">
+  <legend class="checklist-legend">
+    {{ legend() }}
+  </legend>
+  <div class="checklist-grid">
+    @for (perm of allPermissions; track perm) {
+      <label class="checklist-item" [attr.data-disabled]="disabled() ? 'true' : null">
+        <input
+          type="checkbox"
+          class="checklist-checkbox"
+          [checked]="isSelected(perm)"
+          [disabled]="disabled()"
+          (change)="toggle(perm)"
+        />
+        <span class="leading-snug">{{ permissionKey(perm) | t }}</span>
+      </label>
+    }
+  </div>
+</fieldset>

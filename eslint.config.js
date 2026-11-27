@@ -6,7 +6,7 @@ const angular = require('angular-eslint');
 
 module.exports = defineConfig([
   {
-    ignores: ['libs/ui/**', 'dist/**', '.angular/**'],
+    ignores: ['libs/ui/**', 'dist/**', '.angular/**', '.ai/**'],
   },
   {
     files: ['**/*.ts'],
@@ -32,6 +32,38 @@ module.exports = defineConfig([
           type: 'element',
           prefix: 'app',
           style: 'kebab-case',
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/app/core/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/shared/**', '**/features/**'],
+              message: 'ADR-0022: core/ must never import from shared/ or features/.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/app/shared/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/features/**'],
+              message: 'ADR-0022: shared/ must never import from features/.',
+            },
+          ],
         },
       ],
     },

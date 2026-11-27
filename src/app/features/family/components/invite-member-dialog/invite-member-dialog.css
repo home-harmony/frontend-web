@@ -1,0 +1,53 @@
+:host {
+  display: block;
+}
+
+.invite-dialog {
+  max-width: 36rem;
+}
+
+.invite-copy-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 40rem) {
+    flex-direction: row;
+  }
+}
+
+.invite-meta-grid {
+  display: grid;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+
+  @media (min-width: 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.invite-meta-card {
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.invite-ttl-select {
+  display: flex;
+  height: 2.25rem;
+  width: 100%;
+  border: 1px solid var(--input);
+  background-color: var(--background);
+  color: var(--foreground);
+  padding-inline: 0.75rem;
+  padding-block: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--ring);
+  }
+}

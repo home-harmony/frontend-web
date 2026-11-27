@@ -1,0 +1,160 @@
+<div class="fl-standalone-shell">
+  <header class="fl-standalone-header">
+    <div class="fl-brand">
+      <span class="fl-brand-mark">F</span>
+      <span class="fl-brand-name">{{ 'app.name' | t }}</span>
+      @if (auth.user(); as user) {
+        <span hlmBadge variant="outline" class="hidden sm:inline-flex">{{ user.email }}</span>
+      }
+    </div>
+    <app-top-controls />
+  </header>
+
+  <main class="fl-standalone-main">
+    <div class="join-container">
+      <div class="space-y-1.5">
+        <span hlmBadge variant="outline" class="font-mono">{{ 'join.eyebrow' | t }}</span>
+        <h1 class="join-title">{{ 'join.title' | t }}</h1>
+        <p class="fl-page-subtitle">
+          {{ 'join.subtitle' | t }}
+        </p>
+      </div>
+
+      @if (joinedMember(); as member) {
+        <section hlmCard class="join-card">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="text-base font-semibold">{{ 'join.successTitle' | t }}</h2>
+            <span hlmBadge>{{ roleKey(member.role) | t }}</span>
+          </div>
+          <p class="text-sm">
+            {{ 'join.successMessage' | t }}
+            <span class="font-semibold">{{ member.display_name }}</span>.
+          </p>
+          <div class="fl-subtle-box space-y-1">
+            <div>
+              <span class="text-muted-foreground">{{ 'join.targetFamilyLabel' | t }}:</span>
+              <span class="ml-1 font-mono">{{ member.family_id }}</span>
+            </div>
+            <div>
+              <span class="text-muted-foreground">{{ 'join.assignedRole' | t }}:</span>
+              <span class="ml-1 font-medium">{{ roleKey(member.role) | t }}</span>
+            </div>
+          </div>
+          <div class="fl-dialog-footer">
+            <a hlmBtn routerLink="/workspace">
+              {{ 'join.openWorkspace' | t }}
+            </a>
+          </div>
+        </section>
+      } @else if (!invite()) {
+        <section hlmCard class="join-card">
+          <div class="space-y-1">
+            <h2 class="text-sm font-semibold">{{ 'join.missingParamsTitle' | t }}</h2>
+            <p class="fl-page-subtitle">
+              {{ 'join.missingParamsHint' | t }}
+            </p>
+          </div>
+
+          @if (parseError()) {
+            <div role="alert" class="fl-alert-error">
+              {{ 'join.parseError' | t }}
+            </div>
+          }
+
+          <form class="space-y-3" (submit)="applyPastedInvite($event)">
+            <div class="fl-field">
+              <label for="join-paste-input" class="fl-field-label">
+                {{ 'join.pasteLabel' | t }}
+              </label>
+              <input
+                id="join-paste-input"
+                hlmInput
+                type="text"
+                class="font-mono text-xs"
+                [value]="pasteInput()"
+                [placeholder]="'join.pastePlaceholder' | t"
+                (input)="onPasteInput($event)"
+              />
+            </div>
+            <div class="join-actions-bar">
+              <div class="flex flex-wrap gap-2">
+                @if (hasActiveWorkspace()) {
+                  <a hlmBtn variant="outline" size="sm" routerLink="/workspace">
+                    {{ 'join.backToWorkspace' | t }}
+                  </a>
+                }
+                <a hlmBtn variant="outline" size="sm" routerLink="/onboarding">
+                  {{ 'join.backToOnboarding' | t }}
+                </a>
+              </div>
+              <button hlmBtn type="submit" size="sm">
+                {{ 'onboarding.join.action' | t }}
+              </button>
+            </div>
+          </form>
+        </section>
+      } @else {
+        <section hlmCard class="join-card">
+          @if (errorMessage(); as message) {
+            <div role="alert" class="fl-alert-error">
+              {{ message }}
+            </div>
+          }
+
+          <div class="join-params-grid">
+            <div class="fl-subtle-box space-y-1">
+              <div class="text-muted-foreground">{{ 'join.targetFamilyLabel' | t }}</div>
+              <div class="font-mono break-all">{{ invite()!.familyId }}</div>
+            </div>
+            <div class="fl-subtle-box space-y-1">
+              <div class="text-muted-foreground">{{ 'join.tokenLabel' | t }}</div>
+              <div class="font-mono break-all">{{ maskedToken() }}</div>
+            </div>
+          </div>
+
+          <p class="fl-page-subtitle">
+            {{ 'join.identityOnlyNote' | t }}
+          </p>
+
+          <form class="space-y-4" (submit)="submitJoin($event)">
+            <div class="fl-field">
+              <label for="join-display-name" class="fl-field-label">
+                {{ 'join.displayNameLabel' | t }}
+              </label>
+              <input
+                id="join-display-name"
+                hlmInput
+                type="text"
+                maxlength="100"
+                [disabled]="submitting()"
+                [value]="displayName()"
+                [placeholder]="'join.displayNamePlaceholder' | t"
+                (input)="onDisplayNameInput($event)"
+              />
+              @if (validationError(); as validationKey) {
+                <p class="fl-field-error">{{ validationKey | t }}</p>
+              }
+            </div>
+
+            <div class="join-actions-bar pt-2 border-t border-border">
+              <div class="flex flex-wrap gap-2">
+                @if (hasActiveWorkspace()) {
+                  <a hlmBtn variant="outline" size="sm" routerLink="/workspace">
+                    {{ 'join.backToWorkspace' | t }}
+                  </a>
+                }
+                <a hlmBtn variant="outline" size="sm" routerLink="/onboarding">
+                  {{ 'join.backToOnboarding' | t }}
+                </a>
+              </div>
+
+              <button hlmBtn type="submit" [disabled]="submitting()">
+                {{ submitting() ? ('join.submitting' | t) : ('join.submit' | t) }}
+              </button>
+            </div>
+          </form>
+        </section>
+      }
+    </div>
+  </main>
+</div>

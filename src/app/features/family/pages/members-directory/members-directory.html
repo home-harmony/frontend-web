@@ -1,0 +1,229 @@
+@if (evictedCode(); as code) {
+  <app-family-deleted-card
+    [errorCode]="code"
+    [hasRemaining]="hasRemainingWorkspace()"
+    (recoverWorkspace)="recoverToRemaining()"
+    (goToOnboarding)="goToOnboarding()"
+  />
+} @else {
+  <div class="fl-page">
+    <div class="fl-page-header">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <h1 class="fl-page-title">{{ 'members.title' | t }}</h1>
+          @if (!loading()) {
+            <span hlmBadge variant="outline" class="font-mono fl-tabular">
+              {{ members().length }} {{ 'members.activeCount' | t }}
+            </span>
+          }
+        </div>
+        <p class="fl-page-subtitle">{{ 'members.subtitle' | t }}</p>
+      </div>
+
+      @if (isOwner()) {
+        <button hlmBtn size="sm" type="button" (click)="inviteDialogOpen.set(true)">
+          {{ 'overview.inviteMember' | t }}
+        </button>
+      }
+    </div>
+
+    @if (!isOwner() && workspaceStore.activeWorkspace()) {
+      <div class="fl-banner-notice" data-testid="members-readonly-notice">
+        {{ 'members.readOnlyNotice' | t }}
+      </div>
+    }
+
+    @if (errorMessage(); as message) {
+      <div role="alert" class="fl-alert-error">
+        {{ message }}
+      </div>
+    }
+
+    @if (loading() && members().length === 0) {
+      <p class="fl-page-subtitle">{{ 'common.loading' | t }}</p>
+    } @else if (members().length === 0 && !errorMessage()) {
+      <section hlmCard class="p-6 text-xs text-muted-foreground">
+        {{ 'members.empty' | t }}
+      </section>
+    } @else if (members().length > 0) {
+      <section hlmCard class="roster-table-card">
+        <div hlmTableContainer>
+          <table hlmTable>
+            <thead hlmTHead>
+              <tr hlmTr>
+                <th hlmTh>{{ 'members.col.member' | t }}</th>
+                <th hlmTh>{{ 'members.col.role' | t }}</th>
+                <th hlmTh>{{ 'members.col.relationship' | t }}</th>
+                <th hlmTh>{{ 'members.col.access' | t }}</th>
+                <th hlmTh>{{ 'members.col.joined' | t }}</th>
+                <th hlmTh class="text-right">{{ 'members.col.actions' | t }}</th>
+              </tr>
+            </thead>
+            <tbody hlmTBody>
+              @for (member of members(); track member.id) {
+                <tr hlmTr [attr.data-member-id]="member.id">
+                  <td hlmTd class="font-medium text-foreground">{{ member.display_name }}</td>
+                  <td hlmTd>
+                    <span hlmBadge [variant]="member.role === 'owner' ? 'default' : 'outline'">
+                      {{ roleKey(member.role) | t }}
+                    </span>
+                  </td>
+                  <td hlmTd class="text-muted-foreground">{{ member.relationship || '—' }}</td>
+                  <td hlmTd class="whitespace-normal">
+                    @if (member.role === 'other') {
+                      @if (member.permissions.length === 0) {
+                        <span class="text-xs italic text-muted-foreground">
+                          {{ 'members.noCustomPermissions' | t }}
+                        </span>
+                      } @else {
+                        <div class="permission-pills">
+                          @for (perm of member.permissions; track perm) {
+                            <span hlmBadge variant="outline">{{ permissionKey(perm) | t }}</span>
+                          }
+                        </div>
+                      }
+                    } @else {
+                      <span hlmBadge variant="outline">{{ presetKey(member.role) | t }}</span>
+                    }
+                  </td>
+                  <td hlmTd class="font-mono fl-tabular text-muted-foreground">
+                    {{ joinedDate(member.joined_at) }}
+                  </td>
+                  <td hlmTd class="text-right">
+                    @if (member.role === 'owner') {
+                      <span hlmBadge variant="outline" class="font-mono">
+                        {{ 'members.protectedOwner' | t }}
+                      </span>
+                    } @else if (isOwner()) {
+                      <div class="roster-row-actions">
+                        <button
+                          hlmBtn
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          [attr.data-edit-member-id]="member.id"
+                          (click)="editingMember.set(member)"
+                        >
+                          {{ 'members.action.editRole' | t }}
+                        </button>
+                        <button
+                          hlmBtn
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          class="roster-remove-btn"
+                          [attr.data-remove-member-id]="member.id"
+                          (click)="removingMember.set(member)"
+                        >
+                          {{ 'members.action.remove' | t }}
+                        </button>
+                      </div>
+                    } @else {
+                      <span class="text-muted-foreground">—</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="roster-mobile-list">
+        @for (member of members(); track member.id) {
+          <article hlmCard class="roster-mobile-card">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="text-sm font-semibold">{{ member.display_name }}</div>
+                <div class="fl-page-subtitle fl-tabular">
+                  {{ member.relationship || '—' }} · {{ joinedDate(member.joined_at) }}
+                </div>
+              </div>
+              <span hlmBadge [variant]="member.role === 'owner' ? 'default' : 'outline'">
+                {{ roleKey(member.role) | t }}
+              </span>
+            </div>
+
+            <div>
+              @if (member.role === 'other') {
+                @if (member.permissions.length === 0) {
+                  <span class="text-xs italic text-muted-foreground">
+                    {{ 'members.noCustomPermissions' | t }}
+                  </span>
+                } @else {
+                  <div class="permission-pills">
+                    @for (perm of member.permissions; track perm) {
+                      <span hlmBadge variant="outline">{{ permissionKey(perm) | t }}</span>
+                    }
+                  </div>
+                }
+              } @else {
+                <span hlmBadge variant="outline">{{ presetKey(member.role) | t }}</span>
+              }
+            </div>
+
+            <div class="roster-mobile-footer">
+              @if (member.role === 'owner') {
+                <span hlmBadge variant="outline" class="font-mono">
+                  {{ 'members.protectedOwner' | t }}
+                </span>
+              } @else if (isOwner()) {
+                <div class="roster-row-actions">
+                  <button
+                    hlmBtn
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    (click)="editingMember.set(member)"
+                  >
+                    {{ 'members.action.editRole' | t }}
+                  </button>
+                  <button
+                    hlmBtn
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    class="roster-remove-btn"
+                    (click)="removingMember.set(member)"
+                  >
+                    {{ 'members.action.remove' | t }}
+                  </button>
+                </div>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+
+  @if (inviteDialogOpen() && isOwner() && workspaceStore.activeFamilyId(); as activeFamilyId) {
+    <app-invite-member-dialog
+      [familyId]="activeFamilyId"
+      [familyName]="familyName()"
+      (closed)="inviteDialogOpen.set(false)"
+    />
+  }
+
+  @if (editingMember(); as targetEdit) {
+    @if (isOwner() && workspaceStore.activeFamilyId(); as activeFamilyId) {
+      <app-edit-member-role-dialog
+        [familyId]="activeFamilyId"
+        [member]="targetEdit"
+        (closed)="editingMember.set(null)"
+        (updated)="onMemberUpdated($event)"
+      />
+    }
+  }
+
+  @if (removingMember(); as targetRemove) {
+    @if (isOwner() && workspaceStore.activeFamilyId(); as activeFamilyId) {
+      <app-remove-member-dialog
+        [familyId]="activeFamilyId"
+        [member]="targetRemove"
+        (closed)="removingMember.set(null)"
+        (removed)="onMemberRemoved($event)"
+      />
+    }
+  }
+}

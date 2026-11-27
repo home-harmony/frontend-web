@@ -1,0 +1,40 @@
+<div class="controls-bar">
+  <select
+    class="theme-select"
+    [attr.aria-label]="'theme.label' | t"
+    [value]="themeService.theme()"
+    (change)="onThemeChange($event)"
+  >
+    @for (id of themeIds; track id) {
+      <option [value]="id" [selected]="id === themeService.theme()">
+        {{ themeKey(id) | t }}
+      </option>
+    }
+  </select>
+
+  <button
+    hlmBtn
+    type="button"
+    variant="outline"
+    size="sm"
+    [attr.aria-label]="'theme.mode.label' | t"
+    (click)="cycleColorMode()"
+  >
+    {{ modeKey(themeService.colorMode()) | t }}
+  </button>
+
+  <button
+    hlmBtn
+    type="button"
+    variant="outline"
+    size="sm"
+    [attr.aria-label]="'common.language' | t"
+    (click)="toggleLocale()"
+  >
+    {{ localeLabel() }}
+  </button>
+
+  <button hlmBtn type="button" variant="secondary" size="sm" (click)="signOut()">
+    {{ 'common.signOut' | t }}
+  </button>
+</div>

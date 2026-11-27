@@ -1,0 +1,231 @@
+@layer components {
+  .fl-standalone-shell {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  .fl-standalone-header {
+    border-block-end: 1px solid var(--border);
+    background-color: var(--card);
+    color: var(--card-foreground);
+    padding-block: 0.75rem;
+    padding-inline: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+
+    @media (min-width: 48rem) {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  .fl-standalone-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+
+    @media (min-width: 48rem) {
+      padding: 2rem;
+    }
+  }
+
+  .fl-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .fl-brand-mark {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .fl-brand-name {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .fl-page {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .fl-page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .fl-page-title {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  .fl-page-subtitle {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    color: var(--muted-foreground);
+  }
+
+  .fl-alert-error {
+    border: 1px solid var(--destructive);
+    background-color: color-mix(in oklch, var(--destructive) 8%, var(--card));
+    color: var(--destructive);
+    padding-block: 0.625rem;
+    padding-inline: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+  }
+
+  .fl-banner-notice {
+    border: 1px solid var(--border);
+    background-color: color-mix(in oklch, var(--accent) 55%, var(--card));
+    color: var(--foreground);
+    padding-block: 0.5rem;
+    padding-inline: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1.375rem;
+  }
+
+  .fl-subtle-box {
+    border: 1px solid var(--border);
+    background-color: color-mix(in oklch, var(--muted) 25%, transparent);
+    padding: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+  }
+
+  .fl-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .fl-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: color-mix(in oklch, var(--background) 80%, transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  .fl-dialog-panel {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-height: 90dvh;
+    overflow-y: auto;
+    background-color: var(--card);
+    padding: 1.5rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .fl-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-block-end: 1px solid var(--border);
+    padding-block-end: 0.875rem;
+  }
+
+  .fl-dialog-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-block-start: 0.5rem;
+    border-block-start: 1px solid var(--border);
+  }
+
+  .fl-field {
+    display: grid;
+    gap: 0.375rem;
+  }
+
+  .fl-field-label {
+    display: block;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+  }
+
+  .fl-field-hint {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--muted-foreground);
+  }
+
+  .fl-field-error {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--destructive);
+  }
+
+  .fl-role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .fl-role-radio {
+    border: 1px solid var(--border);
+    background-color: var(--background);
+    color: var(--foreground);
+    padding-block: 0.5rem;
+    padding-inline: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    text-align: center;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+
+    &:hover:not(:disabled):not([aria-checked='true']) {
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+    }
+
+    &[aria-checked='true'] {
+      border-color: var(--primary);
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .fl-tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}

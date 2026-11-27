@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.create-family-container {
+  width: 100%;
+  max-width: 32rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.back-link {
+  justify-self: start;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.create-family-form {
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+
+  @media (min-width: 48rem) {
+    padding: 1.5rem;
+  }
+}
+
+.create-family-header {
+  display: grid;
+  gap: 0.25rem;
+  padding-block-end: 0.5rem;
+  border-block-end: 1px solid var(--border);
+}
+
+.create-family-actions {
+  padding-block-start: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

@@ -1,0 +1,26 @@
+<section hlmCard class="deleted-card">
+  <div class="fl-alert-error font-mono">
+    {{ errorCode() }}
+  </div>
+  <div class="space-y-1">
+    <h2 class="text-base font-semibold tracking-tight">{{ 'familyDeleted.title' | t }}</h2>
+    <p class="fl-page-subtitle">
+      {{ 'familyDeleted.subtitle' | t }}
+    </p>
+  </div>
+  <div class="deleted-card-actions">
+    @if (hasRemaining()) {
+      <button hlmBtn type="button" (click)="recoverWorkspace.emit()">
+        {{ 'familyDeleted.switchRemaining' | t }}
+      </button>
+    }
+    <button
+      hlmBtn
+      type="button"
+      [variant]="hasRemaining() ? 'outline' : 'default'"
+      (click)="goToOnboarding.emit()"
+    >
+      {{ 'familyDeleted.goOnboarding' | t }}
+    </button>
+  </div>
+</section>
